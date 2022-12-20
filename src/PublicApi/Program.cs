@@ -124,6 +124,10 @@ builder.Services.AddSwaggerGen(c =>
             });
 });
 
+builder.Services.AddApplicationInsightsTelemetry();
+
+throw new Exception("Cannot move further");
+
 var app = builder.Build();
 
 app.Logger.LogInformation("PublicApi App created...");
