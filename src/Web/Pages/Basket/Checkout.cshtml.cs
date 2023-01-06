@@ -7,7 +7,10 @@ using Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate;
 using Microsoft.eShopWeb.ApplicationCore.Exceptions;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using Microsoft.eShopWeb.Infrastructure.Identity;
+using Microsoft.eShopWeb.Web.Clients;
 using Microsoft.eShopWeb.Web.Interfaces;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Microsoft.eShopWeb.Web.Pages.Basket;
 
@@ -20,18 +23,21 @@ public class CheckoutModel : PageModel
     private string? _username = null;
     private readonly IBasketViewModelService _basketViewModelService;
     private readonly IAppLogger<CheckoutModel> _logger;
-
+    private readonly IOrderItemsReserverClient _orderItemsReserverClient;
+        
     public CheckoutModel(IBasketService basketService,
         IBasketViewModelService basketViewModelService,
         SignInManager<ApplicationUser> signInManager,
         IOrderService orderService,
-        IAppLogger<CheckoutModel> logger)
+        IAppLogger<CheckoutModel> logger,
+        IOrderItemsReserverClient orderItemsReserverClient)
     {
         _basketService = basketService;
         _signInManager = signInManager;
         _orderService = orderService;
         _basketViewModelService = basketViewModelService;
         _logger = logger;
+        _orderItemsReserverClient = orderItemsReserverClient;
     }
 
     public BasketViewModel BasketModel { get; set; } = new BasketViewModel();
@@ -56,6 +62,12 @@ public class CheckoutModel : PageModel
             await _basketService.SetQuantities(BasketModel.Id, updateModel);
             await _orderService.CreateOrderAsync(BasketModel.Id, new Address("123 Main St.", "Kent", "OH", "United States", "44240"));
             await _basketService.DeleteBasketAsync(BasketModel.Id);
+
+            MemoryStream memoryStream = new();
+            await JsonSerializer.SerializeAsync(memoryStream, updateModel);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+
+            await _orderItemsReserverClient.ReserveOrderItems(memoryStream);
         }
         catch (EmptyBasketOnCheckoutException emptyBasketOnCheckoutException)
         {

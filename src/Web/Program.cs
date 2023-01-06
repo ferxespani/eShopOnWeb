@@ -13,6 +13,7 @@ using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using Microsoft.eShopWeb.Infrastructure.Data;
 using Microsoft.eShopWeb.Infrastructure.Identity;
 using Microsoft.eShopWeb.Web;
+using Microsoft.eShopWeb.Web.Clients;
 using Microsoft.eShopWeb.Web.Configuration;
 using Microsoft.eShopWeb.Web.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -84,6 +85,13 @@ builder.Services.AddScoped<HttpClient>(s => new HttpClient
 {
     BaseAddress = new Uri(baseUrlConfig.WebBase)
 });
+
+builder.Services.AddHttpClient(Constants.ORDER_ITEMS_RESERVER, config =>
+{
+    config.BaseAddress = new Uri(baseUrlConfig.OrderItemsReserver);
+});
+
+builder.Services.AddSingleton<IOrderItemsReserverClient, OrderItemsReserverClient>();
 
 // add blazor services
 builder.Services.AddBlazoredLocalStorage();
