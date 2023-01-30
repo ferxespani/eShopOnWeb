@@ -24,47 +24,48 @@
     </environment>
 </head>
 <body>
-    <div class="esh-app-wrapper">
-        <header class="esh-app-header">
-            <div class="container">
-                <article class="row">
-                    <section class="col-lg-7 col-md-6 col-xs-12">
-                        <a asp-area="" asp-page="/Index">
-                            <img src="~/images/brand.png" alt="eShop On Web" />
-                        </a>
-                    </section>
-                    <partial name="_LoginPartial" />
-                </article>
-            </div>
-        </header>
-        @RenderBody()
-        <footer class="esh-app-footer footer">
-            <div class="container">
-                <article class="row">
-                    <section class="col-sm-6"></section>
-                    <section class="col-sm-6">
-                        <div class="esh-app-footer-text hidden-xs"> e-ShopOnWeb. All rights reserved </div>
-                    </section>
-                </article>
-            </div>
-        </footer>
-    </div>
-    <environment names="Development,Docker">
-        <script src="~/lib/jquery/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment names="Staging,Production">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
-    @RenderSection("scripts", required: false)
+<p>Continuous deployment is working</p>
+<div class="esh-app-wrapper">
+    <header class="esh-app-header">
+        <div class="container">
+            <article class="row">
+                <section class="col-lg-7 col-md-6 col-xs-12">
+                    <a asp-area="" asp-page="/Index">
+                        <img src="~/images/brand.png" alt="eShop On Web"/>
+                    </a>
+                </section>
+                <partial name="_LoginPartial"/>
+            </article>
+        </div>
+    </header>
+    @RenderBody()
+    <footer class="esh-app-footer footer">
+        <div class="container">
+            <article class="row">
+                <section class="col-sm-6"></section>
+                <section class="col-sm-6">
+                    <div class="esh-app-footer-text hidden-xs"> e-ShopOnWeb. All rights reserved </div>
+                </section>
+            </article>
+        </div>
+    </footer>
+</div>
+<environment names="Development,Docker">
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</environment>
+<environment names="Staging,Production">
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery">
+    </script>
+    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
+            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+    </script>
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+</environment>
+@RenderSection("scripts", required: false)
 </body>
 </html>
