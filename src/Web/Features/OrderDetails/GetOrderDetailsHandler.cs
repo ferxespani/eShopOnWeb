@@ -42,7 +42,7 @@ public class GetOrderDetailsHandler : IRequestHandler<GetOrderDetails, OrderView
             }).ToList(),
             OrderNumber = order.Id,
             ShippingAddress = order.ShipToAddress,
-            Total = order.Total()
+            Total = order.CalculateTotal()
         };
     }
 }

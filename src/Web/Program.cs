@@ -13,8 +13,10 @@ using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using Microsoft.eShopWeb.Infrastructure.Data;
 using Microsoft.eShopWeb.Infrastructure.Identity;
 using Microsoft.eShopWeb.Web;
+using Microsoft.eShopWeb.Web.Clients;
 using Microsoft.eShopWeb.Web.Configuration;
 using Microsoft.eShopWeb.Web.HealthChecks;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -84,6 +86,18 @@ builder.Services.AddScoped<HttpClient>(s => new HttpClient
 {
     BaseAddress = new Uri(baseUrlConfig.WebBase)
 });
+
+builder.Services.AddHttpClient(Constants.DELIVERY_ORDER_PROCESSOR, config =>
+{
+    config.BaseAddress = new Uri(baseUrlConfig.DeliveryOrderProcessor);
+});
+
+builder.Services.AddAzureClients(config =>
+{
+    config.AddServiceBusClient(builder.Configuration.GetConnectionString("ServiceBus"));
+});
+
+builder.Services.AddSingleton<IDeliveryOrderProcessorClient, DeliveryOrderProcessorClient>();
 
 // add blazor services
 builder.Services.AddBlazoredLocalStorage();
